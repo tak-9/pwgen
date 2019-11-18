@@ -63,9 +63,13 @@ function generatePassword() {
         }
         password = password + passwordChar;
     }
-    console.log('password: ' + password);
+    console.log('password: ' + password); 
+    // Display generated password in the textarea.
     document.getElementById("password").innerHTML = password;
+   
+    // Change "copy to clipboard" button color and enable button.
     var button = document.getElementById("copy");
+    button.removeAttribute('disabled');
     button.classList.remove('buttonGray');
     button.classList.add('buttonRed');
     

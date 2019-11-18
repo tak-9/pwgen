@@ -12,23 +12,18 @@
 </head>
 
 <body>
-    <header>
-      <h1>Password Generator</h1>
-    </header>
+  <header>
+    <h1>Password Generator</h1>
+  </header>
 
-    <div class="box">
+  <div class="box">
     <h2>Generate a Password</h2>
     <div class="line"></div>
-    <textarea
-      readonly
-      id="password"
-      placeholder="Your Secure Password"
-      aria-label="Generated Password"
-    ></textarea>
+    <textarea readonly id="password" placeholder="Your Secure Password" aria-label="Generated Password"></textarea>
     <div class="line"></div>
-
     <button id="generate" class="button buttonRed" onclick="generatePassword()">Generate Password</button>
-    <button id="copy" class="button buttonGray" onclick="copyToClipboard()">Copy to Clipboard</button>
+    <button id="copy" class="button buttonGray" onclick="copyToClipboard()" disabled>Copy to Clipboard</button>
   </div>
-  </body>
+</body>
+
 </html>
