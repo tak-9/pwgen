@@ -3,6 +3,16 @@ var numericChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 var lowerChars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 var upperChars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
+var specialCheckbox =  document.getElementById("special"); 
+var numericCheckbox = document.getElementById("numeric");
+var lowerCheckbox = document.getElementById("lower");
+var upperCheckbox = document.getElementById("upper");
+var passwordLengthTextInput = document.getElementById("passwordlength");
+var passwordTextArea = document.getElementById("password");
+var generateButton = document.getElementById("generate");
+var generate2Button = document.getElementById("generate2")
+var copyButton = document.getElementById("copy");
+
 // Ask user to choose character type.
 function promptForCharType() {
     var charsValidationOK = false;
@@ -46,41 +56,50 @@ function promptForPasswordLength() {
     return passwordLengthInt;
 }
 
-function generatePasswordByPrompt() {
-    var charsForPassword = promptForCharType();
-    //console.log(charsForPassword);
-    var passwordLength = promptForPasswordLength();
-    generatePassword(charsForPassword, passwordLength);
-}
-
-function generatePasswordByForm() {
-    // Do not proceed if error found in validation. 
-    if (!validateForm()){
-        return;
+// This is for index.html
+// Check null here. It's because addEventListener causes error, if generateButton is null.
+// If this is called from index.html, there is generateButton. If this is called from checkbox.html, there isn't generateButton.
+// It becomes null when there is no such element.  
+if (generateButton != null){
+    var generatePasswordByPrompt = function(){
+        var charsForPassword = promptForCharType();
+        //console.log(charsForPassword);
+        var passwordLength = promptForPasswordLength();
+        generatePassword(charsForPassword, passwordLength);
     }
-    // Get Password type from html form.
-    var charsForPassword = getCharTypeFromForm();
-    // Get Password length from html form.
-    var passwordLength = document.getElementById("passwordlength").value
-    generatePassword(charsForPassword, passwordLength);
+    generateButton.addEventListener("click", generatePasswordByPrompt);
+} 
+
+// This is for checkbox.html
+if (generate2Button != null) { 
+    var generatePasswordByForm = function(){
+        // Do not proceed if error found in validation. 
+        if (!validateForm()){
+            return;
+        }
+        // Get Password type from html form.
+        var charsForPassword = getCharTypeFromForm();
+        // Get Password length from html form.
+        generatePassword(charsForPassword, passwordLengthTextInput.value);
+    }
+    generate2Button.addEventListener("click", generatePasswordByForm);
 }
 
 function validateForm() {
     var validateOK = true; 
-    var isSpecialChecked =  document.getElementById("special").checked; 
-    var isNumericChecked = document.getElementById("numeric").checked;
-    var isLowerChecked = document.getElementById("lower").checked;
-    var isUpperChecked = document.getElementById("upper").checked;
+    var isSpecialChecked =  specialCheckbox.checked; 
+    var isNumericChecked = numericCheckbox.checked;
+    var isLowerChecked = lowerCheckbox.checked;
+    var isUpperChecked = upperCheckbox.checked;
     // Error when all checkboxes are not checked
     if ((!isSpecialChecked) && (!isNumericChecked) && (!isLowerChecked) && (!isUpperChecked)){
         validateOK = false;
         alert("Check at least one option.");
     }
     // Error if password lengh is not 8 to 128.
-    var passwordLength = document.getElementById("passwordlength").value;
-    var passwordLengthInt = parseInt(passwordLength);
-    console.log(passwordLengthInt);
-    if ((passwordLengthInt<8) || (passwordLengthInt>128) || (isNaN(parseInt(passwordLength)))) {
+    var passwordLengthInt = parseInt(passwordLengthTextInput.value);
+    //console.log(passwordLengthInt);
+    if ((passwordLengthInt<8) || (passwordLengthInt>128) || (isNaN(parseInt(passwordLengthTextInput.value)))) {
         validateOK = false;
         alert("Password Length is incorrect.");
     }
@@ -89,10 +108,10 @@ function validateForm() {
 }
 
 function getCharTypeFromForm() {
-    var isSpecialChecked =  document.getElementById("special").checked; 
-    var isNumericChecked = document.getElementById("numeric").checked;
-    var isLowerChecked = document.getElementById("lower").checked;
-    var isUpperChecked = document.getElementById("upper").checked;
+    var isSpecialChecked =  specialCheckbox.checked; 
+    var isNumericChecked = numericCheckbox.checked;
+    var isLowerChecked = lowerCheckbox.checked;
+    var isUpperChecked = upperCheckbox.checked;
 
     // Create a new array for characters for password. 
     var charsForPassword = [];
@@ -127,19 +146,18 @@ function generatePassword(charsForPassword, passwordLength) {
     }
     console.log('password: ' + password); 
     // Display generated password in the textarea.
-    document.getElementById("password").innerHTML = password;
+    passwordTextArea.innerHTML = password;
    
     // Change "copy to clipboard" button color and enable button.
-    var button = document.getElementById("copy");
-    button.removeAttribute('disabled');
-    button.classList.remove('buttonGray');
-    button.classList.add('buttonRed');   
+    copyButton.removeAttribute('disabled');
+    copyButton.classList.remove('buttonGray');
+    copyButton.classList.add('buttonRed');   
 }
 
-function copyToClipboard() {
-    var copyText = document.getElementById("password");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
+var copyToClipboard = function(){
+    passwordTextArea.select();
+    passwordTextArea.setSelectionRange(0, 99999);
     document.execCommand("copy");
-    alert("Copied the password: " + copyText.value);
+    alert("Copied the password: " + passwordTextArea.value);
 }
+copyButton.addEventListener("click",copyToClipboard);

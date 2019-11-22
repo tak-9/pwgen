@@ -7,8 +7,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Password Generator</title>
   <link rel="stylesheet" href="./assets/css/password_generator.css">
-  <script src="./assets/js/password_generator.js">
-  </script>
 </head>
 
 <body>
@@ -21,9 +19,10 @@
     <div class="line"></div>
     <textarea readonly id="password" placeholder="Your Secure Password" aria-label="Generated Password"></textarea>
     <div class="line"></div>
-    <button id="generate" class="button buttonRed" onclick="generatePasswordByPrompt()">Generate Password</button>
-    <button id="copy" class="button buttonGray" onclick="copyToClipboard()" disabled>Copy to Clipboard</button>
+    <button id="generate" class="button buttonRed">Generate Password</button>
+    <button id="copy" class="button buttonGray" disabled>Copy to Clipboard</button>
   </div>
-</body>
-
+  <script src="./assets/js/password_generator.js">
+  </script>
+  </body>
 </html>
