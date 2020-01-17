@@ -5,7 +5,7 @@
 This is a password generator for the week3. 
 
 ## Installation
-Simply open your web browser and access to https://tak-9.github.io/week3/
+Simply open your web browser and access to https://tak-9.github.io/pwgen
 
 I have made another version https://tak-9.github.io/week3/checkbox.html. 
 There are checkbox options to select character type and textbox for password length. 
